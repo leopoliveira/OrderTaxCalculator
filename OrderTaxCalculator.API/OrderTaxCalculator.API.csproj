@@ -21,4 +21,9 @@
       <Folder Include="Controllers\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\OrderTaxCalculator.Data\OrderTaxCalculator.Data.csproj" />
+      <ProjectReference Include="..\OrderTaxCalculator.Domain\OrderTaxCalculator.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

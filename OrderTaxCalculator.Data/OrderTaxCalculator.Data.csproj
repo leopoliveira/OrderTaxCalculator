@@ -15,4 +15,8 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.3" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\OrderTaxCalculator.Domain\OrderTaxCalculator.Domain.csproj" />
+    </ItemGroup>
+
 </Project>
