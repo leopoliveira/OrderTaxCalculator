@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderTaxCalculator.API", "OrderTaxCalculator.API\OrderTaxCalculator.API.csproj", "{B76C570B-7710-4055-82DE-9AE91C3AA27A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderTaxCalculator.Domain", "OrderTaxCalculator.Domain\OrderTaxCalculator.Domain.csproj", "{D0CF9D88-E732-42EB-93EE-2EB67D261659}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderTaxCalculator.Data", "OrderTaxCalculator.Data\OrderTaxCalculator.Data.csproj", "{302CED95-9BE6-48B9-8499-776E167399D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderTaxCalculator.Test", "OrderTaxCalculator.Test\OrderTaxCalculator.Test.csproj", "{A295ED28-F297-4EB5-BA0F-731EAD417D2D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B76C570B-7710-4055-82DE-9AE91C3AA27A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B76C570B-7710-4055-82DE-9AE91C3AA27A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B76C570B-7710-4055-82DE-9AE91C3AA27A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B76C570B-7710-4055-82DE-9AE91C3AA27A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0CF9D88-E732-42EB-93EE-2EB67D261659}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0CF9D88-E732-42EB-93EE-2EB67D261659}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0CF9D88-E732-42EB-93EE-2EB67D261659}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0CF9D88-E732-42EB-93EE-2EB67D261659}.Release|Any CPU.Build.0 = Release|Any CPU
+		{302CED95-9BE6-48B9-8499-776E167399D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{302CED95-9BE6-48B9-8499-776E167399D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{302CED95-9BE6-48B9-8499-776E167399D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{302CED95-9BE6-48B9-8499-776E167399D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A295ED28-F297-4EB5-BA0F-731EAD417D2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A295ED28-F297-4EB5-BA0F-731EAD417D2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A295ED28-F297-4EB5-BA0F-731EAD417D2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A295ED28-F297-4EB5-BA0F-731EAD417D2D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
