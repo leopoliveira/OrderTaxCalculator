@@ -13,5 +13,14 @@ public class PedidoConfiguracao : IEntityTypeConfiguration<Pedido>
         
         builder.Property(x => x.Status)
             .HasConversion<string>();
+        
+        builder.Navigation(p => p.Itens)
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasField("_pedidoItens");
+        
+        builder.HasMany(p => p.Itens)
+            .WithOne()
+            .HasForeignKey(p => p.PedidoId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

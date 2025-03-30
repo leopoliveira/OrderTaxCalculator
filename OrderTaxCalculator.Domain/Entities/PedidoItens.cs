@@ -2,13 +2,22 @@
 
 public class PedidoItens
 {
-    public long Id { get; set; }
+    public PedidoItens() { }
+    public PedidoItens(long pedidoId, long produtoId, int quantidade, decimal valor)
+    {
+        PedidoId = pedidoId;
+        ProdutoId = produtoId;
+        Quantidade = quantidade;
+        Valor = valor;
+    }
+    
+    public long Id { get; private set; }
 
-    public long PedidoId { get; set; }
+    public long PedidoId { get; private set; }
 
-    public long ProdutoId { get; set; }
+    public long ProdutoId { get; private set; }
 
-    public int Quantidade { get; set; }
+    public int Quantidade { get; private set; }
 
-    public decimal Valor { get; set; }
+    public decimal Valor { get; private set; }
 }
