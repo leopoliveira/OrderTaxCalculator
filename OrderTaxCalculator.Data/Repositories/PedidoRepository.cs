@@ -32,9 +32,9 @@ public class PedidoRepository : IPedidoRepository
             .ToListAsync();
     }
 
-    public async Task<bool> ExistAsync(long id)
+    public async Task<bool> PedidoExisteAsync(long pedidoId)
     {
-        return await _context.Pedidos.AnyAsync(p => p.Id == id);
+        return await _context.Pedidos.AnyAsync(p => p.PedidoId == pedidoId);
     }
 
     public async Task AddAsync(Pedido pedido)

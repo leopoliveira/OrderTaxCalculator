@@ -44,14 +44,14 @@ public class PedidoService : IPedidoService
 
     public async Task<bool> PedidoExiste(long id)
     {
-        return await _pedidoRepository.ExistAsync(id);
+        return await _pedidoRepository.PedidoExisteAsync(id);
     }
 
     public async Task<Pedido> CreatePedidoAsync(Pedido pedido)
     {
-        var data = await _pedidoRepository.GetByIdAsync(pedido.Id);
+        var pedidoExiste = await PedidoExiste(pedido.PedidoId);
 
-        if (data != null)
+        if (pedidoExiste)
         {
             throw new Exception("Pedido duplicado!");
         }
