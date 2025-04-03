@@ -2,13 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 using OrderTaxCalculator.API.Constantes;
 using OrderTaxCalculator.API.Dto.Pedido;
-using OrderTaxCalculator.API.Errors;
 using OrderTaxCalculator.API.Mapeamentos;
 using OrderTaxCalculator.Domain.Interfaces.Services;
 
 namespace OrderTaxCalculator.API.Controllers.v1;
 
 [Route(ApiRoutes.Pedidos.Rota)]
+[Consumes("application/json")]
+[Produces("application/json")]
+[ProducesResponseType(typeof(ProblemDetails),StatusCodes.Status500InternalServerError)]
 [ApiController]
 public class PedidoController : Controller
 {
@@ -30,8 +32,7 @@ public class PedidoController : Controller
     /// <response code="400">Dados inválidos na requisição.</response>
     /// <response code="500">Erro interno no servidor.</response>
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<CriarPedidoResponse>> CriarPedido([FromBody] CriarPedidoRequest request)
     {
         _logger.LogInformation("Recebendo requisição para criar novo pedido para ClienteId: {ClienteId}", request.ClienteId);
@@ -60,8 +61,7 @@ public class PedidoController : Controller
     /// <response code="404">Pedido não encontrado para o ID fornecido.</response>
     /// <response code="500">Erro interno no servidor.</response>
     [HttpGet("{pedidoId:long}")]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(ProblemDetails),StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ConsultarPedidoResponse>> GetPedidoPorId([FromRoute] long pedidoId)
     {
         _logger.LogInformation("Buscando pedido com Id interno: {Id}", pedidoId);
@@ -89,8 +89,7 @@ public class PedidoController : Controller
     /// <response code="400">Status fornecido para filtro é inválido.</response>
     /// <response code="500">Erro interno no servidor.</response>
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(ProblemDetails),StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ReadOnlyCollection<ConsultarPedidoResponse>>> ListarPedidos([FromQuery] string status)
     {
         _logger.LogInformation("Listando todos os pedidos por status {status}", status);
@@ -107,15 +106,28 @@ public class PedidoController : Controller
     {
         var pedidoId = request.PedidoId;
         _logger.LogInformation("Pedido {PedidoId} duplicado", pedidoId);
-        return BadRequest(new ProblemException("Pedido duplicado",  $"Pedido com ID {pedidoId} não encontrado."));
+    
+        var problem = new ProblemDetails
+        {
+            Title = "Pedido duplicado",
+            Detail = $"Pedido com ID {pedidoId} já existe.",
+            Status = StatusCodes.Status400BadRequest
+        };
+    
+        return BadRequest(problem);
     }
     
     private ActionResult<ConsultarPedidoResponse> PedidoNaoEncontrado(long pedidoId)
     {
         _logger.LogWarning("Pedido com Id {Id} não encontrado.", pedidoId);
-        var errorMessage = new ProblemException(
-            "Pedido não encontrado", $"Pedido com ID {pedidoId} não encontrado."
-        );
-        return NotFound(errorMessage);
+    
+        var problem = new ProblemDetails
+        {
+            Title = "Pedido não encontrado",
+            Detail = $"Pedido com ID {pedidoId} não encontrado.",
+            Status = StatusCodes.Status404NotFound
+        };
+    
+        return NotFound(problem);
     }
 }

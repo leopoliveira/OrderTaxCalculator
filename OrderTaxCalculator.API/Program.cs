@@ -1,4 +1,4 @@
-using OrderTaxCalculator.API.Configuracoes;
+using OrderTaxCalculator.API.Errors;
 using OrderTaxCalculator.Data;
 using OrderTaxCalculator.Domain;
 using Serilog;
@@ -27,7 +27,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigurePedidoDbContext();
 builder.Services.ConfigureRepositorios();
 builder.Services.ConfigureServicos();
-builder.Services.ConfigureServicosApi();
 
 var app = builder.Build();
 
@@ -39,7 +38,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseExceptionHandler();
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
