@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using OrderTaxCalculator.Domain.Entities;
+using OrderTaxCalculator.Domain.Entidades;
 
-namespace OrderTaxCalculator.Data.Database.EntitiesConfiguration;
+namespace OrderTaxCalculator.Data.BancoDeDados.EntitiesConfiguration;
 
 public class PedidoConfiguracao : IEntityTypeConfiguration<Pedido>
 {

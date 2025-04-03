@@ -1,4 +1,4 @@
-﻿namespace OrderTaxCalculator.Domain.Entities;
+﻿namespace OrderTaxCalculator.Domain.Entidades;
 
 public class PedidoItens
 {

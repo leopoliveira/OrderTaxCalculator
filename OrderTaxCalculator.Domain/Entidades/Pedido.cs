@@ -1,6 +1,6 @@
-﻿using OrderTaxCalculator.Domain.Enumerator;
+﻿using OrderTaxCalculator.Domain.Enumeradores;
 
-namespace OrderTaxCalculator.Domain.Entities;
+namespace OrderTaxCalculator.Domain.Entidades;
 
 public class Pedido
 {
@@ -25,11 +25,11 @@ public class Pedido
 
     public IReadOnlyList<PedidoItens> Itens => _pedidoItens.AsReadOnly();
 
-    public void AddItem(PedidoItens pedidoItens) => _pedidoItens.Add(pedidoItens);
+    public void AdicioneItem(PedidoItens pedidoItens) => _pedidoItens.Add(pedidoItens);
 
     public decimal ValorTotalItens => _pedidoItens.Sum(pi => pi.Valor);
     
-    public void SetStatus(StatusEnum novoStatus) => Status = novoStatus;
+    public void ApliqueStatus(StatusEnum novoStatus) => Status = novoStatus;
     
-    public void SetImposto(decimal imposto) => Imposto = imposto;
+    public void ApliqueImposto(decimal imposto) => Imposto = imposto;
 }

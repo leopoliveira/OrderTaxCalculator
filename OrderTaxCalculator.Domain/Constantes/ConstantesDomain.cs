@@ -1,6 +1,6 @@
-﻿namespace OrderTaxCalculator.Domain.Constants;
+﻿namespace OrderTaxCalculator.Domain.Constantes;
 
-public class DomainConstants
+public class ConstantesDomain
 {
     public const string ImpostoReformaTributariaFeatureFlag = "AtivarCalculoImpostoReformaTributaria";
 }

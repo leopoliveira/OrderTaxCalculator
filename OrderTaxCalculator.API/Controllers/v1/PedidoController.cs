@@ -3,23 +3,23 @@ using Microsoft.AspNetCore.Mvc;
 using OrderTaxCalculator.API.Constantes;
 using OrderTaxCalculator.API.Dto.Pedido;
 using OrderTaxCalculator.API.Mapeamentos;
-using OrderTaxCalculator.Domain.Interfaces.Services;
+using OrderTaxCalculator.Domain.Interfaces.Servicos;
 
 namespace OrderTaxCalculator.API.Controllers.v1;
 
-[Route(ApiRoutes.Pedidos.Rota)]
+[Route(RotasApi.Pedidos.Rota)]
 [Consumes("application/json")]
 [Produces("application/json")]
 [ProducesResponseType(typeof(ProblemDetails),StatusCodes.Status500InternalServerError)]
 [ApiController]
 public class PedidoController : Controller
 {
-    private readonly IPedidoService _pedidoService;
+    private readonly IPedidoServico _pedidoServico;
     private readonly ILogger<PedidoController> _logger;
     
-    public PedidoController(IPedidoService pedidoService, ILogger<PedidoController> logger)
+    public PedidoController(IPedidoServico pedidoServico, ILogger<PedidoController> logger)
     {
-        _pedidoService = pedidoService;
+        _pedidoServico = pedidoServico;
         _logger = logger;
     }
     
@@ -37,15 +37,15 @@ public class PedidoController : Controller
     {
         _logger.LogInformation("Recebendo requisição para criar novo pedido para ClienteId: {ClienteId}", request.ClienteId);
 
-        var pedido = request.ToPedido();
-        var novoPedido = await _pedidoService.CreatePedidoAsync(pedido);
+        var pedido = request.ParaPedido();
+        var novoPedido = await _pedidoServico.CriePedidoAsync(pedido);
 
         if (novoPedido == null)
         {
             return PedidoDuplicado(request);
         }
         
-        var pedidoResponse = novoPedido.ToCriarPedidoResponse();
+        var pedidoResponse = novoPedido.ParaCriarPedidoResponse();
 
         _logger.LogInformation("Pedido Id {PedidoId} criado com sucesso com Id interno {IdInterno}", novoPedido.PedidoId, novoPedido.Id);
             
@@ -66,14 +66,14 @@ public class PedidoController : Controller
     {
         _logger.LogInformation("Buscando pedido com Id interno: {Id}", pedidoId);
         
-        var pedido = await _pedidoService.GetPedidoByIdAsync(pedidoId);
+        var pedido = await _pedidoServico.ObtenhaPedidoPorIdAsync(pedidoId);
 
         if (pedido == null)
         {
             return PedidoNaoEncontrado(pedidoId);
         }
 
-        var pedidoResponse = pedido.ToConsultarPedidoResponse();
+        var pedidoResponse = pedido.ParaConsultarPedidoResponse();
 
         _logger.LogInformation("Pedido Id {PedidoId} encontrado.", pedidoResponse.PedidoId);
         
@@ -94,8 +94,8 @@ public class PedidoController : Controller
     {
         _logger.LogInformation("Listando todos os pedidos por status {status}", status);
         
-        var pedidos = await _pedidoService.GetPedidoByStatus(status);
-        var pedidosResponse = pedidos.PedidosToListConsultarPedidoResponse();
+        var pedidos = await _pedidoServico.ObtenhaPedidoPorStatusAsync(status);
+        var pedidosResponse = pedidos.ParaListConsultarPedidoResponse();
 
         _logger.LogInformation("Retornando {Count} pedidos.", pedidosResponse.Count);
         

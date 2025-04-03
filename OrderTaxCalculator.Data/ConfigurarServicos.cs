@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using OrderTaxCalculator.Data.Constants;
-using OrderTaxCalculator.Data.Database;
-using OrderTaxCalculator.Data.Repositories;
-using OrderTaxCalculator.Domain.Interfaces.Repositories;
+using OrderTaxCalculator.Data.BancoDeDados;
+using OrderTaxCalculator.Data.Constantes;
+using OrderTaxCalculator.Data.Repositorios;
+using OrderTaxCalculator.Domain.Interfaces.Repositorios;
 
 namespace OrderTaxCalculator.Data;
 
@@ -11,7 +11,7 @@ public static class ConfigurarServicos
 {
     public static void ConfigurePedidoDbContext(this IServiceCollection service)
     {
-        const string bancoDeDados = DataConstants.BancoDeDadosEmMemoria;
+        const string bancoDeDados = ConstantesData.BancoDeDadosEmMemoria;
         
         service.AddDbContext<PedidoDbContext>(options =>
             options.UseInMemoryDatabase(bancoDeDados));
@@ -19,6 +19,6 @@ public static class ConfigurarServicos
 
     public static void ConfigureRepositorios(this IServiceCollection service)
     {
-        service.AddScoped<IPedidoRepository, PedidoRepository>();
+        service.AddScoped<IPedidoRepositorio, RepositorioPedido>();
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OrderTaxCalculator.Domain.Entities;
+using OrderTaxCalculator.Domain.Entidades;
 
-namespace OrderTaxCalculator.Data.Database;
+namespace OrderTaxCalculator.Data.BancoDeDados;
 
 public class PedidoDbContext : DbContext
 {

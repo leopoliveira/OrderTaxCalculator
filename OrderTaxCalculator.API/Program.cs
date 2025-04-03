@@ -1,4 +1,4 @@
-using OrderTaxCalculator.API.Errors;
+using OrderTaxCalculator.API.Erros;
 using OrderTaxCalculator.Data;
 using OrderTaxCalculator.Domain;
 using Serilog;
@@ -38,7 +38,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseMiddleware<ErrorHandlingMiddleware>();
+app.UseMiddleware<ProcessamentoDeErroMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

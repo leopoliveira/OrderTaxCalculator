@@ -1,14 +1,14 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
 
-namespace OrderTaxCalculator.API.Errors;
+namespace OrderTaxCalculator.API.Erros;
 
-public class ErrorHandlingMiddleware
+public class ProcessamentoDeErroMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly ILogger<ErrorHandlingMiddleware> _logger;
+    private readonly ILogger<ProcessamentoDeErroMiddleware> _logger;
 
-    public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
+    public ProcessamentoDeErroMiddleware(RequestDelegate next, ILogger<ProcessamentoDeErroMiddleware> logger)
     {
         _next = next;
         _logger = logger;

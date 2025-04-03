@@ -1,6 +1,6 @@
-﻿namespace OrderTaxCalculator.Data.Constants;
+﻿namespace OrderTaxCalculator.Data.Constantes;
 
-public class DataConstants
+public class ConstantesData
 {
     public const string BancoDeDadosEmMemoria = "BancoDeDadosEmMemoria";
 }

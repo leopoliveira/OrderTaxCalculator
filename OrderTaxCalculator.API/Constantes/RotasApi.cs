@@ -1,6 +1,6 @@
 ﻿namespace OrderTaxCalculator.API.Constantes;
 
-public static class ApiRoutes
+public static class RotasApi
 {
     private const string Api = "api";
     private const string V1 = "v1";

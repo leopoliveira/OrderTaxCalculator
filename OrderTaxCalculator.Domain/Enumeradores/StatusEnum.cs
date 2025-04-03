@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace OrderTaxCalculator.Domain.Enumerator;
+namespace OrderTaxCalculator.Domain.Enumeradores;
 
 public enum StatusEnum
 {

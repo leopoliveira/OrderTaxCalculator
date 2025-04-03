@@ -1,8 +1,8 @@
-﻿using OrderTaxCalculator.Domain.Interfaces.Services;
+﻿using OrderTaxCalculator.Domain.Interfaces.Servicos;
 
 namespace OrderTaxCalculator.Domain.Strategy;
 
-public class CalcularImpostoReformaTributariaStrategy : ICalcularImpostoService
+public class CalcularImpostoReformaTributariaStrategy : ICalcularImpostoServico
 {
     public decimal CalcularImposto(decimal totalItens) => totalItens * ObterTaxa();
 
