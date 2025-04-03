@@ -86,7 +86,7 @@ public class PedidoService : IPedidoService
     {
         ICalcularImpostoService calcularImposto = await GetCalcularImpostoService();
 
-        var totalItens = pedido.TotalItens;
+        var totalItens = pedido.ValorTotalItens;
         var imposto = calcularImposto.CalcularImposto(totalItens);
         pedido.SetImposto(imposto);
     }
@@ -94,7 +94,7 @@ public class PedidoService : IPedidoService
     private async Task<ICalcularImpostoService> GetCalcularImpostoService()
     {
         return await _featureManager.IsEnabledAsync(DomainConstants.ImpostoReformaTributariaFeatureFlag) ?
-            new CalcularImpostoServiceStrategy() :
-            new CalcularImpostoReformaTributariaStrategy();
+            new CalcularImpostoReformaTributariaStrategy() :
+            new CalcularImpostoServiceStrategy();
     }
 }
