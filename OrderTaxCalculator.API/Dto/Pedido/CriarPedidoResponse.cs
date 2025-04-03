@@ -1,3 +1,3 @@
 ﻿namespace OrderTaxCalculator.API.Dto.Pedido;
 
-public record CriarPedidoResponse(long Id, string Status);
+public record CriarPedidoResponse(long PedidoId, string Status);

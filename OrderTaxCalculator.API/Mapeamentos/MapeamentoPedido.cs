@@ -17,7 +17,7 @@ public static class MapeamentoPedido
     
     public static CriarPedidoResponse ToCriarPedidoResponse(this Pedido pedido)
     {
-        return new CriarPedidoResponse(pedido.Id, pedido.Status.ToString());
+        return new CriarPedidoResponse(pedido.PedidoId, pedido.Status.ToString());
     }
 
     public static ConsultarPedidoResponse ToConsultarPedidoResponse(this Pedido pedido)
@@ -31,6 +31,14 @@ public static class MapeamentoPedido
             pedido.Imposto,
             pedidoItens,
             pedido.Status.ToString());
+    }
+    
+    public static ReadOnlyCollection<ConsultarPedidoResponse> PedidosToListConsultarPedidoResponse(this IEnumerable<Pedido> pedidos)
+    {
+        return pedidos
+            .Select(MapeamentoPedido.ToConsultarPedidoResponse)
+            .ToList()
+            .AsReadOnly();
     }
     
     private static void AddPedidoItens(CriarPedidoRequest request, Pedido pedido)
