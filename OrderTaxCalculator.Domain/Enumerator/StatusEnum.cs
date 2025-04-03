@@ -2,7 +2,7 @@
 
 namespace OrderTaxCalculator.Domain.Enumerator;
 
-public enum Status
+public enum StatusEnum
 {
     [Description("Criado")]
     Criado = 1
