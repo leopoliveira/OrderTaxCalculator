@@ -5,6 +5,20 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console()
+    .CreateLogger();
+
+builder.Host.UseSerilog(
+    (context, loggerConfiguration) =>
+        loggerConfiguration.ReadFrom.Configuration(context.Configuration)
+            .WriteTo.Console()
+);
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog();
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -16,6 +30,8 @@ builder.Services.ConfigureServicos();
 builder.Services.ConfigureServicosApi();
 
 var app = builder.Build();
+
+app.UseSerilogRequestLogging();
 
 if (app.Environment.IsDevelopment())
 {
