@@ -23,10 +23,10 @@ public class PedidoService : IPedidoService
         _featureManager = featureManager;
     }
     
-    public async Task<Pedido?> GetPedidoByIdAsync(long id)
+    public async Task<Pedido?> GetPedidoByIdAsync(long pedidoId)
     {
         return await _pedidoRepository
-            .GetByIdAsync(id);
+            .GetByIdAsync(pedidoId);
     }
     
     public async Task<IReadOnlyList<Pedido>> GetPedidoByStatus(string status)
@@ -47,13 +47,13 @@ public class PedidoService : IPedidoService
         return await _pedidoRepository.PedidoExisteAsync(id);
     }
 
-    public async Task<Pedido> CreatePedidoAsync(Pedido pedido)
+    public async Task<Pedido?> CreatePedidoAsync(Pedido pedido)
     {
         var pedidoExiste = await PedidoExiste(pedido.PedidoId);
 
         if (pedidoExiste)
         {
-            throw new Exception("Pedido duplicado!");
+            return null;
         }
         
         pedido.SetStatus(StatusEnum.Criado);

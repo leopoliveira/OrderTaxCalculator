@@ -47,21 +47,21 @@ public class PedidoController : Controller
     }
     
     /// <summary>
-    /// Consulta um pedido específico pelo seu ID interno.
+    /// Consulta um pedido específico pelo seu Id.
     /// </summary>
-    /// <param name="id">O ID interno do pedido a ser consultado.</param>
+    /// <param name="pedidoId">O Id do pedido a ser consultado.</param>
     /// <returns>Os detalhes do pedido encontrado.</returns>
     /// <response code="200">Pedido encontrado e retornado.</response>
     /// <response code="404">Pedido não encontrado para o ID fornecido.</response>
     /// <response code="500">Erro interno no servidor.</response>
-    [HttpGet("{id:long}")]
+    [HttpGet("{pedidoId:long}")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<ConsultarPedidoResponse>> GetPedidoPorId([FromRoute] long id)
+    public async Task<ActionResult<ConsultarPedidoResponse>> GetPedidoPorId([FromRoute] long pedidoId)
     {
-        _logger.LogInformation("Buscando pedido com Id interno: {Id}", id);
+        _logger.LogInformation("Buscando pedido com Id interno: {Id}", pedidoId);
         
-        var pedido = await _pedidoService.GetPedidoByIdAsync(id);
+        var pedido = await _pedidoService.GetPedidoByIdAsync(pedidoId);
 
         if (pedido == null)
         {

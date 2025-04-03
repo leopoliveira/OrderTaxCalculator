@@ -15,12 +15,12 @@ public class PedidoRepository : IPedidoRepository
         _context = context;
     }
     
-    public async Task<Pedido?> GetByIdAsync(long id)
+    public async Task<Pedido?> GetByIdAsync(long pedidoId)
     {
         return await _context.Pedidos
             .AsNoTracking()
             .Include(p => p.Itens)
-            .FirstOrDefaultAsync(p => p.Id == id);
+            .FirstOrDefaultAsync(p => p.PedidoId == pedidoId);
     }
 
     public async Task<IReadOnlyList<Pedido>> GetByFilter(Expression<Func<Pedido, bool>> filter)

@@ -5,7 +5,7 @@ namespace OrderTaxCalculator.Domain.Interfaces.Repositories;
 
 public interface IPedidoRepository
 {
-    Task<Pedido?> GetByIdAsync(long id);
+    Task<Pedido?> GetByIdAsync(long pedidoId);
     Task<IReadOnlyList<Pedido>> GetByFilter(Expression<Func<Pedido, bool>> filter);
     Task<bool> PedidoExisteAsync(long pedidoId);
     Task AddAsync(Pedido pedido);
