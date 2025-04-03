@@ -1,10 +1,9 @@
 ﻿using System.Collections.ObjectModel;
-using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using OrderTaxCalculator.API.Constantes;
 using OrderTaxCalculator.API.Dto.Pedido;
+using OrderTaxCalculator.API.Errors;
 using OrderTaxCalculator.API.Mapeamentos;
-using OrderTaxCalculator.Domain.Entities;
 using OrderTaxCalculator.Domain.Interfaces.Services;
 
 namespace OrderTaxCalculator.API.Controllers.v1;
@@ -39,13 +38,19 @@ public class PedidoController : Controller
 
         var pedido = request.ToPedido();
         var novoPedido = await _pedidoService.CreatePedidoAsync(pedido);
+
+        if (novoPedido == null)
+        {
+            return PedidoDuplicado(request);
+        }
+        
         var pedidoResponse = novoPedido.ToCriarPedidoResponse();
 
         _logger.LogInformation("Pedido Id {PedidoId} criado com sucesso com Id interno {IdInterno}", novoPedido.PedidoId, novoPedido.Id);
             
-        return CreatedAtAction(nameof(GetPedidoPorId), new { id = pedidoResponse.Id }, pedidoResponse);
+        return CreatedAtAction(nameof(GetPedidoPorId), new { pedidoId = pedidoResponse.PedidoId }, pedidoResponse);
     }
-    
+
     /// <summary>
     /// Consulta um pedido específico pelo seu Id.
     /// </summary>
@@ -65,17 +70,16 @@ public class PedidoController : Controller
 
         if (pedido == null)
         {
-            _logger.LogWarning("Pedido com Id interno {Id} não encontrado.", id);
-            return NotFound(new { message = $"Pedido com ID {id} não encontrado." });
+            return PedidoNaoEncontrado(pedidoId);
         }
 
         var pedidoResponse = pedido.ToConsultarPedidoResponse();
 
-        _logger.LogInformation("Pedido Id {PedidoId} (Id interno {IdInterno}) encontrado.", pedidoResponse.PedidoId, pedidoResponse.Id);
+        _logger.LogInformation("Pedido Id {PedidoId} encontrado.", pedidoResponse.PedidoId);
         
         return Ok(pedidoResponse);
     }
-    
+
     /// <summary>
     /// Lista os pedidos, com opção de filtro por status.
     /// </summary>
@@ -89,21 +93,29 @@ public class PedidoController : Controller
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<ReadOnlyCollection<ConsultarPedidoResponse>>> ListarPedidos([FromQuery] string status)
     {
-        _logger.LogInformation("Listando todos os pedidos (sem filtro de status).");
+        _logger.LogInformation("Listando todos os pedidos por status {status}", status);
         
         var pedidos = await _pedidoService.GetPedidoByStatus(status);
-        var pedidosResponse = MapPedidosToListResponse(pedidos);
+        var pedidosResponse = pedidos.PedidosToListConsultarPedidoResponse();
 
         _logger.LogInformation("Retornando {Count} pedidos.", pedidosResponse.Count);
         
         return Ok(pedidosResponse);
     }
     
-    private static ReadOnlyCollection<ConsultarPedidoResponse> MapPedidosToListResponse(IEnumerable<Pedido> pedidos)
+    private ActionResult<CriarPedidoResponse> PedidoDuplicado(CriarPedidoRequest request)
     {
-        return pedidos
-            .Select(MapeamentoPedido.ToConsultarPedidoResponse)
-            .ToList()
-            .AsReadOnly();
+        var pedidoId = request.PedidoId;
+        _logger.LogInformation("Pedido {PedidoId} duplicado", pedidoId);
+        return BadRequest(new ProblemException("Pedido duplicado",  $"Pedido com ID {pedidoId} não encontrado."));
+    }
+    
+    private ActionResult<ConsultarPedidoResponse> PedidoNaoEncontrado(long pedidoId)
+    {
+        _logger.LogWarning("Pedido com Id {Id} não encontrado.", pedidoId);
+        var errorMessage = new ProblemException(
+            "Pedido não encontrado", $"Pedido com ID {pedidoId} não encontrado."
+        );
+        return NotFound(errorMessage);
     }
 }
