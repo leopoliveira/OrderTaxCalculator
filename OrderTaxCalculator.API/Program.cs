@@ -1,4 +1,7 @@
+using OrderTaxCalculator.API.Configuracoes;
 using OrderTaxCalculator.Data;
+using OrderTaxCalculator.Domain;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
