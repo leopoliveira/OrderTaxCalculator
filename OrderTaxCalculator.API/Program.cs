@@ -8,6 +8,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.ConfigurePedidoDbContext();
+builder.Services.ConfigureRepositorios();
+builder.Services.ConfigureServicos();
+builder.Services.ConfigureServicosApi();
 
 var app = builder.Build();
 
