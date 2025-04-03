@@ -2,7 +2,7 @@
 
 public class PedidoItens
 {
-    public PedidoItens() { }
+    private PedidoItens() { }
     public PedidoItens(long pedidoId, long produtoId, int quantidade, decimal valor)
     {
         PedidoId = pedidoId;

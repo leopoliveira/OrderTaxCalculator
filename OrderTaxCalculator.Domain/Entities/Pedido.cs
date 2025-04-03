@@ -6,13 +6,11 @@ public class Pedido
 {
     private List<PedidoItens> _pedidoItens = [];
     
-    public Pedido() { }
-    public Pedido(long pedidoId, long clienteId, decimal imposto, Status status)
+    private Pedido() { }
+    public Pedido(long pedidoId, long clienteId)
     {
         PedidoId = pedidoId;
         ClienteId = clienteId;
-        Imposto = imposto;
-        Status = status;
     }
     
     public long Id { get; private set; }
@@ -23,11 +21,15 @@ public class Pedido
 
     public decimal Imposto { get; private set; }
     
-    public Status Status { get; private set; }
+    public StatusEnum Status { get; private set; }
 
     public IReadOnlyList<PedidoItens> Itens => _pedidoItens.AsReadOnly();
 
     public void AddItem(PedidoItens pedidoItens) => _pedidoItens.Add(pedidoItens);
 
-    public void RemoveItem(PedidoItens pedidoItens) => _pedidoItens.Remove(pedidoItens);
+    public int TotalItens => _pedidoItens.Sum(pi => pi.Quantidade);
+    
+    public void SetStatus(StatusEnum novoStatus) => Status = novoStatus;
+    
+    public void SetImposto(decimal imposto) => Imposto = imposto;
 }
