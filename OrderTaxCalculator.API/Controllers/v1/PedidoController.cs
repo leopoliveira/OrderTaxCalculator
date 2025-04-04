@@ -109,7 +109,7 @@ public class PedidoController : Controller
     
         var problem = new ProblemDetails
         {
-            Title = "Pedido duplicado",
+            Title = ConstantesApi.PedidoDuplicado,
             Detail = $"Pedido com ID {pedidoId} já existe.",
             Status = StatusCodes.Status400BadRequest
         };
@@ -123,7 +123,7 @@ public class PedidoController : Controller
     
         var problem = new ProblemDetails
         {
-            Title = "Pedido não encontrado",
+            Title = ConstantesApi.PedidoNaoEncontrado,
             Detail = $"Pedido com ID {pedidoId} não encontrado.",
             Status = StatusCodes.Status404NotFound
         };
