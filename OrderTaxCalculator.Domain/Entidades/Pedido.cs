@@ -27,7 +27,7 @@ public class Pedido
 
     public void AdicioneItem(PedidoItens pedidoItens) => _pedidoItens.Add(pedidoItens);
 
-    public decimal ValorTotalItens => _pedidoItens.Sum(pi => pi.Valor);
+    public decimal ValorTotalItens => _pedidoItens.Sum(pi => pi.Valor * pi.Quantidade);
     
     public void ApliqueStatus(StatusEnum novoStatus) => Status = novoStatus;
     
