@@ -32,6 +32,7 @@ public class PedidoController : Controller
     /// <response code="400">Dados inválidos na requisição.</response>
     /// <response code="500">Erro interno no servidor.</response>
     [HttpPost]
+    [ProducesResponseType(typeof(CriarPedidoResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<CriarPedidoResponse>> CriarPedido([FromBody] CriarPedidoRequest request)
     {
@@ -61,6 +62,7 @@ public class PedidoController : Controller
     /// <response code="404">Pedido não encontrado para o ID fornecido.</response>
     /// <response code="500">Erro interno no servidor.</response>
     [HttpGet("{pedidoId:long}")]
+    [ProducesResponseType(typeof(ConsultarPedidoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails),StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ConsultarPedidoResponse>> GetPedidoPorId([FromRoute] long pedidoId)
     {
@@ -89,6 +91,7 @@ public class PedidoController : Controller
     /// <response code="400">Status fornecido para filtro é inválido.</response>
     /// <response code="500">Erro interno no servidor.</response>
     [HttpGet]
+    [ProducesResponseType(typeof(ReadOnlyCollection<ConsultarPedidoResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails),StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ReadOnlyCollection<ConsultarPedidoResponse>>> ListarPedidos([FromQuery] string status)
     {
