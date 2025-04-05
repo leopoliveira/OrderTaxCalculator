@@ -1,3 +1,4 @@
+using OrderTaxCalculator.API.Configuracao;
 using OrderTaxCalculator.API.Erros;
 using OrderTaxCalculator.Data;
 using OrderTaxCalculator.Domain;
@@ -22,11 +23,12 @@ builder.Logging.AddSerilog();
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 builder.Services.ConfigurePedidoDbContext();
 builder.Services.ConfigureRepositorios();
 builder.Services.ConfigureServicos();
+builder.Services.ConfigureJwt(builder.Configuration);
+builder.Services.ConfigureDocumentacaoSwagger();
 
 var app = builder.Build();
 
@@ -41,6 +43,7 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ProcessamentoDeErroMiddleware>();
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
