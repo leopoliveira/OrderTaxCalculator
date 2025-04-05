@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OrderTaxCalculator.API.Autenticacao.Interfaces;
 using OrderTaxCalculator.API.Constantes;
+using OrderTaxCalculator.API.Dto.Jwt;
 
 namespace OrderTaxCalculator.API.Controllers.v1;
 
@@ -18,7 +19,8 @@ public class DevTokenController : ControllerBase
     }
 
     [HttpGet("generate")]
-    public IActionResult GenerateToken([FromQuery] string clientId = "dev-client")
+    [ProducesResponseType(typeof(JwtResponse), StatusCodes.Status200OK)]
+    public IActionResult GereDevToken([FromQuery] string clientId = "dev-client")
     {
         if (!_environment.IsDevelopment())
         {
@@ -26,12 +28,8 @@ public class DevTokenController : ControllerBase
         }
 
         var token = _jwtService.GereToken(clientId);
+        var expiresAt = DateTime.UtcNow.AddMinutes(60);
         
-        return Ok(new
-        {
-            Token = token,
-            ExpiresAt = DateTime.UtcNow.AddMinutes(60),
-            Type = "Bearer"
-        });
+        return Ok(new JwtResponse(token, expiresAt, "Bearer"));
     }
 }
