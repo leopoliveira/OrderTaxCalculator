@@ -33,6 +33,8 @@ public class PedidoServicoTestesIntegracao : BaseTestesIntegracao
 
         _featureManager.IsEnabledAsync(ConstantesDomain.ImpostoReformaTributariaFeatureFlag)
             .Returns(false);
+        
+        var impostoEsperado = 30M; // 100 * 0.3 = 30 (taxa de 30%)
 
         // Act
         var resultado = await _pedidoServico.CriePedidoAsync(pedido);
@@ -40,7 +42,7 @@ public class PedidoServicoTestesIntegracao : BaseTestesIntegracao
         // Assert
         resultado.Should().NotBeNull();
         resultado.Status.Should().Be(StatusEnum.Criado);
-        resultado.Imposto.Should().Be(60m); // 200 * 0.3 = 60 (taxa de 30%)
+        resultado.Imposto.Should().Be(impostoEsperado);
         
         // Verificar que foi persistido no banco
         var pedidoPersistido = await _pedidoRepositorio.ObtenhaPorIdAsync(resultado.PedidoId);
@@ -48,7 +50,7 @@ public class PedidoServicoTestesIntegracao : BaseTestesIntegracao
         pedidoPersistido!.PedidoId.Should().Be(pedidoId);
         pedidoPersistido.ClienteId.Should().Be(clienteId);
         pedidoPersistido.Status.Should().Be(StatusEnum.Criado);
-        pedidoPersistido.Imposto.Should().Be(60m);
+        pedidoPersistido.Imposto.Should().Be(impostoEsperado);
     }
 
     [Fact]
@@ -62,6 +64,8 @@ public class PedidoServicoTestesIntegracao : BaseTestesIntegracao
         var item = new PedidoItens(pedidoId, 4002, 2, 100m);
         pedido.AdicioneItem(item);
 
+        var impostoEsperado = 20M; // 100 * 0.2 = 20 (taxa de 20%)
+
         _featureManager.IsEnabledAsync(ConstantesDomain.ImpostoReformaTributariaFeatureFlag)
             .Returns(true);
 
@@ -70,8 +74,8 @@ public class PedidoServicoTestesIntegracao : BaseTestesIntegracao
 
         // Assert
         resultado.Should().NotBeNull();
-        resultado!.Status.Should().Be(StatusEnum.Criado);
-        resultado.Imposto.Should().Be(40m); // 200 * 0.2 = 40 (taxa de 20%)
+        resultado.Status.Should().Be(StatusEnum.Criado);
+        resultado.Imposto.Should().Be(impostoEsperado); 
         
         // Verificar que foi persistido no banco
         var pedidoPersistido = await _pedidoRepositorio.ObtenhaPorIdAsync(resultado.PedidoId);
@@ -79,7 +83,7 @@ public class PedidoServicoTestesIntegracao : BaseTestesIntegracao
         pedidoPersistido.PedidoId.Should().Be(pedidoId);
         pedidoPersistido.ClienteId.Should().Be(clienteId);
         pedidoPersistido.Status.Should().Be(StatusEnum.Criado);
-        pedidoPersistido.Imposto.Should().Be(40m);
+        pedidoPersistido.Imposto.Should().Be(impostoEsperado);
     }
 
     [Fact]
