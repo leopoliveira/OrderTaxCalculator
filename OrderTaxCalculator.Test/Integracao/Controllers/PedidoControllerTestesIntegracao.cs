@@ -1,9 +1,10 @@
 ﻿using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using FluentAssertions; // Add this import
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using OrderTaxCalculator.API.Autenticacao.Interfaces;
 using OrderTaxCalculator.API.Constantes;
 using OrderTaxCalculator.API.Dto.Pedido;
 using OrderTaxCalculator.Data.BancoDeDados;
@@ -17,8 +18,10 @@ public class PedidoControllerTestesIntegracao
     public class PedidoControllerTests : IAsyncLifetime
     {
         private readonly MsSqlContainer _sqlContainer;
-        private WebApplicationFactory<Program> _factory;
+        private WebApplicationFactory<Program> _fabrica;
         private HttpClient _client;
+        private IJwtServico _jwtServico;
+        private string _jwtToken;
 
         public PedidoControllerTests()
         {
@@ -33,7 +36,7 @@ public class PedidoControllerTestesIntegracao
         {
             await _sqlContainer.StartAsync();
 
-            _factory = new WebApplicationFactory<Program>()
+            _fabrica = new WebApplicationFactory<Program>()
                 .WithWebHostBuilder(builder =>
                 {
                     builder.ConfigureServices(services =>
@@ -70,14 +73,18 @@ public class PedidoControllerTestesIntegracao
                         db.Database.EnsureCreated();
                     });
                 });
-
-            _client = _factory.CreateClient();
+            
+            _jwtServico = _fabrica.Services.GetRequiredService<IJwtServico>();
+            _jwtToken = _jwtServico.GereToken("client-id");
+            
+            _client = _fabrica.CreateClient();
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _jwtToken);
         }
 
         public async Task DisposeAsync()
         {
             _client.Dispose();
-            _factory.Dispose();
+            _fabrica.Dispose();
             await _sqlContainer.DisposeAsync().AsTask();
         }
         
