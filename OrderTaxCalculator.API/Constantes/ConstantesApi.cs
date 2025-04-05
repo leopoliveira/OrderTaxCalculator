@@ -4,4 +4,5 @@ public class ConstantesApi
 {
     public const string PedidoDuplicado = "Pedido duplicado";
     public const string PedidoNaoEncontrado = "Pedido não encontrado";
+    public const string ConfiguracaoJwtAmbiente = "JwtSettings";
 }

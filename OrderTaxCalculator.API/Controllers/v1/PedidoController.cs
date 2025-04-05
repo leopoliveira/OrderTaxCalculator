@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OrderTaxCalculator.API.Constantes;
 using OrderTaxCalculator.API.Dto.Pedido;
@@ -10,8 +11,10 @@ namespace OrderTaxCalculator.API.Controllers.v1;
 [Route(RotasApi.Pedidos.Rota)]
 [Consumes("application/json")]
 [Produces("application/json")]
+[ProducesResponseType(typeof(ProblemDetails),StatusCodes.Status401Unauthorized)]
 [ProducesResponseType(typeof(ProblemDetails),StatusCodes.Status500InternalServerError)]
 [ApiController]
+[Authorize]
 public class PedidoController : Controller
 {
     private readonly IPedidoServico _pedidoServico;

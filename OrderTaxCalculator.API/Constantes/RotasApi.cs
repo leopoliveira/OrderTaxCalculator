@@ -11,4 +11,9 @@ public static class RotasApi
     {
         public const string Rota = Base + "/pedidos";
     }
+
+    public static class DevToken
+    {
+        public const string Rota = Base + "/dev-token";
+    }
 }
