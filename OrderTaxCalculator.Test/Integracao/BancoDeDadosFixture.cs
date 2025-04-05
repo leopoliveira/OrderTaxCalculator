@@ -20,17 +20,17 @@ public class BancoDeDadosFixture : IAsyncLifetime
     
     public async Task InitializeAsync()
     {
-        // Start the SQL Server container
+        // Inicia o SQL Server container
         await _sqlContainer.StartAsync();
 
-        // Create and configure the DbContext
+        // Crie e configure o DbContext
         var options = new DbContextOptionsBuilder<PedidoDbContext>()
             .UseSqlServer(_sqlContainer.GetConnectionString())
             .Options;
 
         DbContext = new PedidoDbContext(options);
             
-        // Ensure database is created and migrations are applied
+        // Garanta a base crida
         await DbContext.Database.EnsureCreatedAsync();
     }
 
