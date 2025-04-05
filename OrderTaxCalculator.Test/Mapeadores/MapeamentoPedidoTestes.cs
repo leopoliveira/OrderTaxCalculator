@@ -1,5 +1,4 @@
-﻿using OrderTaxCalculator.API.Dto.Pedido;
-using OrderTaxCalculator.API.Mapeamentos;
+﻿using OrderTaxCalculator.API.Mapeamentos;
 using OrderTaxCalculator.Domain.Entidades;
 using OrderTaxCalculator.Domain.Enumeradores;
 

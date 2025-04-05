@@ -38,7 +38,7 @@ public class PedidoControllerTestesIntegracao
                 {
                     builder.ConfigureServices(services =>
                     {
-                        // Remove ALL existing DbContext registrations
+                        // Remova todos os registros de DbContext
                         var descriptors = services.Where(
                             d => d.ServiceType == typeof(DbContextOptions<PedidoDbContext>) ||
                                  d.ServiceType == typeof(DbContextOptions<PedidoDbContext>)).ToList();
@@ -47,8 +47,7 @@ public class PedidoControllerTestesIntegracao
                         {
                             services.Remove(descriptor);
                         }
-
-                        // Also remove the DB provider core services
+                        
                         var dbProviderCoreServices = services.Where(
                             d => d.ServiceType.Name.Contains("DbContextOptions")).ToList();
                         
@@ -57,13 +56,13 @@ public class PedidoControllerTestesIntegracao
                             services.Remove(descriptor);
                         }
 
-                        // Add DbContext using SQL Server container
+                        // Adicione o container
                         services.AddDbContext<PedidoDbContext>(options =>
                         {
                             options.UseSqlServer(_sqlContainer.GetConnectionString());
                         });
 
-                        // Ensure database is created
+                        // Garanta a criação da base
                         var sp = services.BuildServiceProvider();
                         using var scope = sp.CreateScope();
                         var scopedServices = scope.ServiceProvider;
@@ -77,8 +76,8 @@ public class PedidoControllerTestesIntegracao
 
         public async Task DisposeAsync()
         {
-            _client?.Dispose();
-            _factory?.Dispose();
+            _client.Dispose();
+            _factory.Dispose();
             await _sqlContainer.DisposeAsync().AsTask();
         }
         
@@ -112,7 +111,6 @@ public class PedidoControllerTestesIntegracao
         public async Task GetPedidoPorId_DeveRetornarPedido_QuandoPedidoExiste()
         {
             // Arrange
-            // Primeiro criar um pedido
             var criarRequest = new CriarPedidoRequest(
                 3002,
                 4002,
@@ -142,7 +140,6 @@ public class PedidoControllerTestesIntegracao
         public async Task ListarPedidos_DeveRetornarPedidosFiltrados_QuandoStatusFornecido()
         {
             // Arrange
-            // Criar pedidos com status diferentes
             var criarRequest1 = new CriarPedidoRequest(
                 3003,
                 4003,

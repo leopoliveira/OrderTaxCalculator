@@ -14,7 +14,7 @@ public abstract class BaseTestesIntegracao : IClassFixture<BancoDeDadosFixture>,
     
     public void Dispose()
     {
-        // Clean up the database after each test
+        // Limpa a base a cada teste.
         DbContext.Pedidos.RemoveRange(DbContext.Pedidos);
         DbContext.PedidoItens.RemoveRange(DbContext.PedidoItens);
         DbContext.SaveChanges();
