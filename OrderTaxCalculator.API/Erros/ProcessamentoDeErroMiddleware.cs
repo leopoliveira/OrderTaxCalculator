@@ -29,16 +29,28 @@ public class ProcessamentoDeErroMiddleware
     
     private static Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
-        var problem = new ProblemDetails
+        var problemDetails = new ProblemDetails();
+
+        switch (exception)
         {
-            Title = "Erro interno no servidor",
-            Detail = exception.Message,
-            Status = (int)HttpStatusCode.InternalServerError
-        };
+            case UnauthorizedAccessException:
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                problemDetails.Status = StatusCodes.Status401Unauthorized;
+                problemDetails.Title = "Não autorizado";
+                problemDetails.Detail = "Você não está autorizado a acessar este recurso";
+                break;
+                
+            default:
+                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                problemDetails.Status = StatusCodes.Status500InternalServerError;
+                problemDetails.Title = "Erro interno do servidor";
+                problemDetails.Detail = "Ocorreu um erro ao processar sua solicitação";
+                break;
+        }
         
         context.Response.ContentType = "application/problem+json";
-        context.Response.StatusCode = problem.Status.Value;
+        context.Response.StatusCode = problemDetails.Status.Value;
         
-        return context.Response.WriteAsJsonAsync(problem);
+        return context.Response.WriteAsJsonAsync(problemDetails);
     }
 }
